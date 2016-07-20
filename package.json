@@ -1,0 +1,29 @@
+{
+  "name": "rss-downloader",
+  "version": "1.0.0",
+  "description": "rss downloader",
+  "main": "index.js",
+  "keywords": [
+    "rss",
+    "download",
+    "feed"
+  ],
+  "author": "Gaël Dupont",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gaeldupont44/RSSDownloader/issues"
+  },
+  "private": true,
+  "dependencies": {
+    "hapi": "^13.5.0",
+    "lodash": "^4.13.1",
+    "mongoose": "^4.4.20",
+    "node-schedule": "^1.1.0",
+    "socket.io": "^1.4.6"
+  },
+  "engines": {
+    "node": ">=6.0.0"
+  }
+}
+
+
