@@ -1,24 +1,56 @@
+'use strict';
 
-var express = require('express');
-var http = require('http');
+const Hapi = require('hapi');
+const mongoose = require('mongoose');
+const config = require('./config');
+const server = new Hapi.Server();
+server.connection({ routes: { cors: true }, port: 3000 });
 
-var app = express();
-var server = http.createServer(app);
-app.use(express.static('public'));
-var socketio = require('socket.io')(server, {
-  transports: ['websocket', 'polling'],
-  serveClient: true,
-  path: '/socket.io-client'
+
+// Connect to MongoDB
+mongoose.connect(config.mongo.uri, config.mongo.options);
+mongoose.connection.on('error', function(err) {
+  console.error('MongoDB connection error: ' + err);
+  process.exit(-1);
 });
 
-require('./routes')(app, socketio);
+server.register(require('inert'), (err) => {
 
-app.get('/', function (req, res) {
-  res.send('Hello World!');
+    if (err) {
+        throw err;
+    }
+
 });
 
+server.route(
+	{
+        method: 'GET',
+    	path: '/{param*}',
+    	handler: {
+        	directory: {
+				path: "client/www",
+				index: true
+    	    }
+    	}
+    }
+);
 
-app.listen(6666, function () {
-  console.log('Example app listening on port 6666!');
+server.route(
+	{
+	    method: 'GET',
+	    path: '/api',
+	    handler: function (request, reply) {
+	        reply('Hello, world!');
+	    }
+	}
+);
+
+require('./routes')(server);
+
+server.start((err) => {
+
+    if (err) {
+        throw err;
+    }
+    console.log('Server running at:', server.info.uri);
 });
-

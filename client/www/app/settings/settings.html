@@ -1,0 +1,18 @@
+<ion-view view-title="Paramètres">
+  <ion-content id="tab-settings">
+  	<div class="bar-header">
+  		<h2 class="title">Flux RSS</h2>
+  		<i ng-click="vm.openFeedCreatePopup()" class="feed-create icon ion-android-add-circle"></i>
+	</div>
+	
+    <ion-list>
+    		<ion-item class="feed-content item-icon-left item-icon-right" ng-repeat="feed in vm.feeds">
+		        <i class="icon ion-android-refresh icon-accessory"></i>
+		        <h2>{{feed.name}}</h2>
+		        <p>{{feed.url}}</p>
+		        <i ng-click="vm.feedDelete(feed._id)" class="icon ion-android-remove-circle icon-accessory"></i>
+			</ion-item>
+    </ion-list>
+    
+  </ion-content>
+</ion-view>

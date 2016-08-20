@@ -16,6 +16,7 @@
   "private": true,
   "dependencies": {
     "hapi": "^13.5.0",
+    "inert": "^4.0.1",
     "lodash": "^4.13.1",
     "mongoose": "^4.4.20",
     "node-schedule": "^1.1.0",
@@ -25,5 +26,3 @@
     "node": ">=6.0.0"
   }
 }
-
-

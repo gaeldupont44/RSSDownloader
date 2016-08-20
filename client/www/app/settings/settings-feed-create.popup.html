@@ -1,0 +1,12 @@
+<form name="feedCreateForm">
+	<h4>Nom du flux</h4>
+<input type="text" ng-model="vm.newFeed.name" placeholder="Nom">
+<h4>Url du flux</h4>
+<input type="url" ng-model="vm.newFeed.url" placeholder="Url">
+
+<div class="buttons-container">
+	<button class="button button-light" ng-click="vm.closeFeedCreatePopup()">Annuler</button><!--
+	--><button type="submit" class="button button-positive" ng-click="vm.feedCreate()">Valider</button>
+</div>
+
+</form>
