@@ -1,0 +1,22 @@
+<ion-view view-title="Téléchargements">
+  <ion-content id="tab-articles">
+    <ion-list>
+    	<ion-item class="article-content item-icon-right" ng-if="article.state != 'DELETED'" ng-repeat="article in vm.articles">
+			<h2>{{article.title}}</h2>
+			<p>{{article.url}}</p>
+			<p ng-show="article.state == 'DOWNLOADED'">Terminé - {{ article.date | date: 'dd/MM/yyyy HH:mm'}}</p>
+			<p ng-show="article.state == 'DOWNLOADING'">
+				<span>En cours - {{ article.date | date: 'dd/MM/yyyy HH:mm'}}</span>
+				<br>
+				<i class="icon-progress ion-ios-speedometer"> {{article.speed >= 0 ? (article.speed | byte) : '-' }}/s</i>
+				<i class="icon-progress ion-ios-time"> {{article.size >= 0 ? (article.eta | secondsToDate | date:'HH:mm:ss') : '-' }}</i>
+				<br>
+				<i class="icon-progress ion-ios-folder"> {{article.transferred >= 0 ? (article.transferred | byte) : '-' }}/{{article.size >= 0 ? (article.size | byte) : '-' }}</i>
+				<progress max="1" value="{{article.progress >= 0 ? article.progress : 1 }}"></progress>
+			</p>
+			
+			<i ng-click="vm.openDeletePopup(article)" class="icon ion-android-remove-circle icon-accessory"></i>
+		</ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

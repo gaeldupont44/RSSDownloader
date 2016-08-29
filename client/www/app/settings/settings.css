@@ -1,21 +1,33 @@
 #tab-settings .feed-create {
+	margin-top: -5px;
 	position: absolute;
-	top: 0;
 	right: 15px;
 	font-size: 30px;
 	color: lightgreen;
+}
+
+#tab-settings .input-url {
+	width: 100%;
 }
 
 #tab-settings .feed-content p {
 	font-size: 10px;
 }
 
-#tab-settings .ion-android-refresh, #tab-settings .ion-android-remove-circle {
-	font-size: 24px;
+#tab-settings select {
+	width: 50%;
+	margin: 0;
+	padding: 10px;
+	background-color: black;
+	color: white;
 }
 
-.settings-feed-create-popup .popup-buttons {
-	display: none;	
+#tab-settings .select-value {
+	border-radius: 5px 0 0 5px;
+}
+
+#tab-settings .select-type {
+	border-radius: 0 5px 5px 0;
 }
 
 .settings-feed-create-popup h4 {

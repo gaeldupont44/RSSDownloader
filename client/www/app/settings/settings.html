@@ -1,14 +1,31 @@
 <ion-view view-title="Paramètres">
   <ion-content id="tab-settings">
-  	<div class="bar-header">
-  		<h2 class="title">Flux RSS</h2>
-  		<i ng-click="vm.openFeedCreatePopup()" class="feed-create icon ion-android-add-circle"></i>
+  
+  	<div class="item item-input-inset">
+		<label class="item-input-wrapper">
+		<i class="icon" ng-class="{'ion-checkmark-circled': !!vm.api.connected, 'ion-close-circled': !vm.api.connected}"></i>
+			<input class="input-url" type="url" ng-model="vm.api.host" placeholder="API Host (Must be open)">
+		</label>
+		<button class="button button-small" ng-click="vm.setAPIHost()">
+			Connect
+		</button>
 	</div>
 	
+	<div class="bar-header">
+  		<h2 class="title">Délai de rafraichissement</h2>
+	</div>
+	
+	<select class="select-value" ng-model="vm.cron.current.value" ng-change="vm.feedSetRefreshDelay()" ng-options="limite for limite in vm.cron.current.limite | iterate"></select><!--
+	--><select class="select-type" ng-model="vm.cron.current.type" ng-change="vm.changeCronValueLimite(true)" ng-options="limite.type as limite.type for limite in vm.cron.limites"></select>
+	
+  	<div class="bar-header">
+  		<h2 class="title">Flux RSS <i ng-click="vm.openFeedCreatePopup()" class="feed-create icon ion-android-add-circle"></i></h2>
+	</div>
+
     <ion-list>
     		<ion-item class="feed-content item-icon-left item-icon-right" ng-repeat="feed in vm.feeds">
-		        <i class="icon ion-android-refresh icon-accessory"></i>
-		        <h2>{{feed.name}}</h2>
+		        <i class="icon ion-android-refresh icon-accessory" ng-click="vm.feedRefresh(feed._id)"></i>
+		        <h2>{{feed.title}}</h2>
 		        <p>{{feed.url}}</p>
 		        <i ng-click="vm.feedDelete(feed._id)" class="icon ion-android-remove-circle icon-accessory"></i>
 			</ion-item>

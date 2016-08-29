@@ -5,7 +5,8 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('RSSDownloader', ['ionic', 'RSSDownloader.downloads', 'RSSDownloader.files', 'RSSDownloader.settings'])
+angular.module('RSSDownloader', ['ionic', 'LocalStorageModule',
+								'RSSDownloader.articles', 'RSSDownloader.files', 'RSSDownloader.settings', 'btford.socket-io'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {

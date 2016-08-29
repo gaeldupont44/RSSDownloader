@@ -1,7 +1,13 @@
-var API = {};
-
-API.Host = "http://gaeldupont.io:3000";
-API.Routes = {
-	Feeds: API.Host+"/api/feed",
-	Feed: API.Host+"/api/feed/{id}"
+var API = {
+	Routes: {
+		Article: "/api/feed/article/{id}",
+		Articles: "/api/feed/article",
+		Check: "/api/check",
+		Delay: "/api/feed/delay",
+		Feed: "/api/feed/{id}",
+		Feeds: "/api/feed",
+		FeedRefresh: "/api/feed/{id}/refresh",
+		File: "/api/file/{name}",
+		Files: "/api/file"
+	}
 };

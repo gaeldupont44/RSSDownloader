@@ -1,14 +1,11 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-    Schema = mongoose.Schema,
-    Article = require('./article/article.model'),
-    ObjectId = mongoose.Types.ObjectId;
+    Schema = mongoose.Schema;
  
 var FeedSchema = new Schema({
-  name: { type: String, required: true },
-  url: { type: String, required: true },
-  articles: [Article.schema]
+  title: { type: String, required: true },
+  url: { type: String, required: true }
 });
- 
+
 module.exports = mongoose.model('Feed', FeedSchema);

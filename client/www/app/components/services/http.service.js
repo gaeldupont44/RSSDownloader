@@ -1,7 +1,7 @@
 angular.module('RSSDownloader')
 .factory("HttpService", HttpService);
 
-function HttpService($http) {
+function HttpService($http, localStorageService, Const) {
 	
 	function parseUrl(url, params) {
 		if(!!params) {
@@ -11,7 +11,7 @@ function HttpService($http) {
 				});
 			}
 		}
-		return url;
+		return (localStorageService.get(Const.LS.APIHost) || "") + url;
 	}
 	
 	var _timeout = 15000;
@@ -27,6 +27,7 @@ function HttpService($http) {
   		return $http({
 		    url: parseUrl(url, params), 
 		    method: "DELETE",
+		    data: data,
 		    timeout: _timeout
 		 })
 		 .then(function(response) {

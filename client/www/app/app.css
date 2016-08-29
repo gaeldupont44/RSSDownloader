@@ -4,10 +4,24 @@ h2.title {
 	font-size: 24px;
 }
 
-.ion-android-remove-circle {
+.ion-android-remove-circle, .ion-close-circled {
 	color: red !important;
+	font-size: 24px !important;
 }
 
+.ion-checkmark-circled {
+	color: lightgreen !important;
+	font-size: 24px;
+}
 .ion-android-refresh {
 	color: teal !important;
+	font-size: 24px !important;
+}
+
+.popup-container .popup-buttons {
+	display: none;	
+}
+
+progress {
+	margin: 5px auto !important;
 }

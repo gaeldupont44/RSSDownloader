@@ -1,0 +1,5 @@
+<div class="buttons-container">
+	<button class="button button-assertive button-block" ng-click="vm.articleDelete(false)">Supprimer</button>
+	<button class="button button-assertive button-block" ng-click="vm.articleDelete(true)" ng-show="vm.article.state == 'DOWNLOADED'">Supprimer avec les données</button>
+	<button class="button button-light button-block" ng-click="vm.closeDeletePopup()">Retour</button>
+</div>

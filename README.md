@@ -1,12 +1,7 @@
 # rssdownloader
-
-This project is generated with [yo angular generator](https://github.com/yeoman/generator-angular)
-version 0.15.1.
+Feed Agregator.
 
 ## Build & development
 
-Run `grunt` for building and `grunt serve` for preview.
-
-## Testing
-
-Running `grunt test` will run the unit tests with karma.
+Run `node index.js` to start server api and website.
+Run `ionic run android` to deploy the app on android devices.
