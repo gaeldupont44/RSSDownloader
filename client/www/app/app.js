@@ -8,7 +8,7 @@
 angular.module('RSSDownloader', ['ionic', 'LocalStorageModule',
 								'RSSDownloader.articles', 'RSSDownloader.files', 'RSSDownloader.settings', 'btford.socket-io'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $location, $rootScope) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -21,5 +21,6 @@ angular.module('RSSDownloader', ['ionic', 'LocalStorageModule',
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+    
   });
 });

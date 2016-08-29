@@ -1,7 +1,7 @@
 angular.module('RSSDownloader.settings')
 .controller('SettingsCtrl', SettingsCtrl);
 
-function SettingsCtrl($ionicPopup, $q, $scope, $timeout, LoaderService, SettingsService) {
+function SettingsCtrl($ionicPopup, $q, $rootScope, $scope, $timeout, LoaderService, SettingsService) {
 	
 	init();
 	
@@ -9,8 +9,7 @@ function SettingsCtrl($ionicPopup, $q, $scope, $timeout, LoaderService, Settings
  
 	var vm = this;
 	vm.api = {
-		host: SettingsService.getAPIHost(),
-		connected: null
+		host: SettingsService.getAPIHost()
 	};
 	vm.changeCronValueLimite = changeCronValueLimite;
 	vm.closeFeedCreatePopup = closeFeedCreatePopup;
@@ -51,10 +50,16 @@ function SettingsCtrl($ionicPopup, $q, $scope, $timeout, LoaderService, Settings
   	
   	function init() {
   		LoaderService.show();
-  		checkAPIHost()
-  			.then(function() {
+  		SettingsService.checkAPIHost()
+  			.then(function(response) {
+  				$rootScope.isConnected = true;
+  				SettingsService.socketioConnect();
   				var promises = [feedGetAll(), feedGetRefreshDelay()];
   				$q.all(promises).finally(LoaderService.hide);
+  			})
+  			.catch(function() {
+  				$rootScope.isConnected = false;
+  				LoaderService.hide();
   			});
   	}
   	
@@ -72,18 +77,7 @@ function SettingsCtrl($ionicPopup, $q, $scope, $timeout, LoaderService, Settings
   				});
   	}
   	
-  	function checkAPIHost() {
-  		return SettingsService.checkAPIHost()
-  			.then(function() {
-  				vm.api.connected = true;
-  			})
-  			.catch(function() {
-  				vm.api.connected = false;
-  			});
-  	}
-  	
   	function setAPIHost() {
-  		LoaderService.show();
   		SettingsService.setAPIHost(vm.api.host);
   		init();
   	}
@@ -124,7 +118,6 @@ function SettingsCtrl($ionicPopup, $q, $scope, $timeout, LoaderService, Settings
   	function feedGetRefreshDelay() {
   		SettingsService.feedGetRefreshDelay()
   			.then(function(cron) {
-  				console.log(cron);
   				vm.cron.current = cron2obj(cron);
   				changeCronValueLimite(false);
   			});

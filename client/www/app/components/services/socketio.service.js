@@ -4,15 +4,21 @@
 angular.module('RSSDownloader')
 .factory('SocketioService', function(socketFactory, localStorageService, Const) {
     // socket.io now auto-configures its connection when we ommit a connection url
-    var ioSocket = io((localStorageService.get(Const.LS.APIHost) || ""), {
-      //transports: ['websocket', 'polling'],
-      path: '/socket.io-client'
-    });
+    var ioSocket;
+    var socket;
     
-    var socket = socketFactory({ ioSocket:ioSocket });
-      
-      console.log("init sio");
+    function connect() {
+    	ioSocket = io((localStorageService.get(Const.LS.APIHost) || ""), {
+	      path: '/socket.io-client'
+	    });
+	    
+	    socket = socketFactory({ ioSocket:ioSocket });
+	    console.log("connecting");
+    }
+    
+    
     return {
+      connect: connect,
       socket: socket,
 
       /**

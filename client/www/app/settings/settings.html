@@ -3,7 +3,7 @@
   
   	<div class="item item-input-inset">
 		<label class="item-input-wrapper">
-		<i class="icon" ng-class="{'ion-checkmark-circled': !!vm.api.connected, 'ion-close-circled': !vm.api.connected}"></i>
+		<i class="icon" ng-class="{'ion-checkmark-circled': !!isConnected, 'ion-close-circled': !isConnected}"></i>
 			<input class="input-url" type="url" ng-model="vm.api.host" placeholder="API Host (Must be open)">
 		</label>
 		<button class="button button-small" ng-click="vm.setAPIHost()">

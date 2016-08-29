@@ -1,7 +1,7 @@
 angular.module('RSSDownloader.settings')
 .factory('SettingsService', SettingsService);
 
-function SettingsService(HttpService, localStorageService, Const) {
+function SettingsService(HttpService, SocketioService, localStorageService, Const) {
 	
 	return {
 		checkAPIHost: checkAPIHost,
@@ -11,8 +11,10 @@ function SettingsService(HttpService, localStorageService, Const) {
 		feedDelete: feedDelete,
 		feedGetAll: feedGetAll,
 		feedRefresh: feedRefresh,
+		feedSetRefreshDelay: feedSetRefreshDelay,
 		setAPIHost: setAPIHost,
-		feedSetRefreshDelay: feedSetRefreshDelay
+		socketioConnect: SocketioService.connect
+		
 	};
 	
 	function checkAPIHost() {

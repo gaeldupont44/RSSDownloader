@@ -12,6 +12,6 @@ angular.module('RSSDownloader')
 			templateUrl: 'app/app.html'
 		});
 
-	$urlRouterProvider.otherwise('/app/articles');
+	$urlRouterProvider.otherwise('/app/settings');
 
 });

@@ -1,10 +1,22 @@
 angular.module('RSSDownloader.files')
 .controller('FilesCtrl', FilesCtrl);
 
-function FilesCtrl($ionicPopup, $scope, FilesService, LoaderService) {
+function FilesCtrl($ionicPopup, $rootScope, $scope, $state, FilesService, LoaderService) {
 	
-  	init();
+	var _initialized = false;
 	
+	$scope.$on('$ionicView.enter', function(e) {
+		if(!!$rootScope.isConnected) {
+			if(!_initialized) {
+				_initialized = true;
+				init();
+			}
+		} else {
+			_initialized = false;
+			$state.go("app.settings");
+		}
+  	});
+  	
 	var _deletePopup = null;
 	
 	var vm = this;

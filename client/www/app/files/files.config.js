@@ -1,5 +1,6 @@
 angular.module('RSSDownloader.files')
   .config(function ($stateProvider) {
+  	
     $stateProvider
 		.state('app.files', {
     		url: '/files',
