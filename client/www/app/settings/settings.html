@@ -4,7 +4,7 @@
   	<div class="item item-input-inset">
 		<label class="item-input-wrapper">
 		<i class="icon" ng-class="{'ion-checkmark-circled': !!isConnected, 'ion-close-circled': !isConnected}"></i>
-			<input class="input-url" type="url" ng-model="vm.api.host" placeholder="API Host (Must be open)">
+			<input class="input-url" type="url" ng-model="vm.api.host" placeholder="API Host">
 		</label>
 		<button class="button button-small" ng-click="vm.setAPIHost()">
 			Connect
@@ -15,8 +15,10 @@
   		<h2 class="title">Délai de rafraichissement</h2>
 	</div>
 	
-	<select class="select-value" ng-model="vm.cron.current.value" ng-change="vm.feedSetRefreshDelay()" ng-options="limite for limite in vm.cron.current.limite | iterate"></select><!--
-	--><select class="select-type" ng-model="vm.cron.current.type" ng-change="vm.changeCronValueLimite(true)" ng-options="limite.type as limite.type for limite in vm.cron.limites"></select>
+	<div class="select-container">
+		<select class="select-value" ng-model="vm.cron.current.value" ng-change="vm.feedSetRefreshDelay()" ng-options="limite for limite in vm.cron.current.limite | iterate"></select><!--
+		--><select class="select-type" ng-model="vm.cron.current.type" ng-change="vm.changeCronValueLimite(true)" ng-options="limite.type as limite.type for limite in vm.cron.limites"></select>
+	</div>
 	
   	<div class="bar-header">
   		<h2 class="title">Flux RSS <i ng-click="vm.openFeedCreatePopup()" class="feed-create icon ion-android-add-circle"></i></h2>

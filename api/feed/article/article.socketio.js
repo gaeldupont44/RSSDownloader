@@ -22,7 +22,6 @@ exports.register = function (socketio) {
 
 function createListener(event, socketio) {
   return function(doc) {
-  	console.log("entry: " + doc.title);
   	process.on(event, doc);
     socketio.emit('article:' + event, doc);
   };

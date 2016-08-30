@@ -2,6 +2,7 @@
 
 const Hapi = require('hapi');
 const mongoose = require('mongoose');
+const articleProcess = require('./api/feed/article/article.process');
 const config = require('./config');
 const fs = require('fs-extra');
 const server = new Hapi.Server();
@@ -23,6 +24,11 @@ mongoose.connection.on('error', function(err) {
 
 process.on('uncaughtException', function (err) {
   console.error(err);
+});
+
+process.on('SIGINT', function () {
+	articleProcess.clean();
+	process.exit(2);
 });
 
 server.register(require('inert'), (err) => {

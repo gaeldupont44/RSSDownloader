@@ -1,6 +1,7 @@
+const _ = require('lodash');
 const fs = require('fs-extra');
-const Article = require('./article.model');
-const feed = require('./../feed.controller');
+const feedCtrl = require('./../feed.controller');
+const articleCtrl = require('./article.controller');
 const Config = require('./../../../config');
 const completedPath = Config.file.completedPath;
 const tempPath = Config.file.tempPath;
@@ -10,21 +11,22 @@ const rp = require('request-promise');
 const cronTask = require('node-cron');
 var repetitor = null;
 var downloads = {};
+const regexpCD = /filename="([^"\\]*(?:\\.[^"\\]*)*)"/i;
 
-fs.watchFile(feed.cronPath, function() {
-	start();
+fs.watchFile(feedCtrl.cronPath, function() {
+	load();
 });
 
 function load() {
 	if(!!repetitor) {
 		repetitor.destroy();
 	}
-	feed.delay(function(err, cron) {
+	feedCtrl.delay(function(err, cron) {
 		if(err) {
 			console.error(err);
 		}
 		repetitor = cronTask.schedule(cron || '*/5 * * * *', function(){
-	  		feed.refreshAll(function(err) {
+	  		feedCtrl.refreshAll(function(err) {
 	  			console.error(err);
 	  		});
 		});
@@ -34,7 +36,23 @@ function load() {
 exports.start = function() {
 	fs.ensureDirSync(tempPath);
 	fs.ensureDirSync(completedPath);
-	load();
+	articleCtrl.articles(function(err, articles) {
+		if(!err) {
+			_(articles).forEach(function(article) {
+				if(article.state === "NEW" || article.state === "DOWNLOADING") {
+					download(article);
+				}
+			});
+		}
+		load();
+	});
+};
+
+exports.clean = function() {
+	for(var dl in downloads) {
+		downloads[dl].cancel();
+	}
+	fs.removeSync(tempPath);
 };
 
 exports.on = function(event, article) {
@@ -44,7 +62,7 @@ exports.on = function(event, article) {
 				download(article);
 				break;
 			case "DELETED":
-				cancel(article);
+				cancel(article._id);
 				break;
 			default: break;
 		}
@@ -59,17 +77,20 @@ function download(article) {
 		progress(downloads[article._id], {})
 			.on('progress', function (state) {
 				
-				console.log("progress: " + article.title + " - " + (state.percentage ? state.percentage*100 + "%" : ''));
-			
-				if(article.state === "NEW" || article.state === "DOWNLOADING") {
-					article.state = "DOWNLOADING";
-					article.progress = state.percentage || -1;
-					article.speed = state.speed || -1;
-					article.size = state.size.total || -1;
-					article.transferred = state.size.transferred || -1;
-					article.eta = state.time.remaining || -1;
-					article.save();
-				}
+					if(article.state === "NEW") {
+						article.state = "DOWNLOADING";
+						article.size = state.size.total || -1;
+						var contentDisposition = downloads[article._id].responseContent.headers['content-disposition'];
+						var fileName = regexpCD.exec(contentDisposition)[1];
+						article.fileName = fileName || -1;
+					}
+					if(article.state === "DOWNLOADING") {
+						article.progress = state.percentage || -1;
+						article.speed = state.speed || -1;
+						article.transferred = state.size.transferred || -1;
+						article.eta = state.time.remaining || -1;
+						article.save();
+					}
 			})
 			.on('error', function (err) {
 				console.error(err);
@@ -84,7 +105,7 @@ function download(article) {
 			    	article.save();
 			    } else {
 			    	if(article.state === "DOWNLOADING" && !!downloads[article._id]) {
-			    		fs.move(tempPath + article.title, completedPath + article.title, function (err) {
+			    		fs.move(tempPath + article.title, completedPath + article.fileName, function (err) {
 							if (err) { 
 								console.error(err);
 							} else {
@@ -103,10 +124,10 @@ function download(article) {
 	}
 }
 
-function cancel(article) {
-	if(!!downloads[article._id]) {
-		downloads[article._id].cancel();
-		delete downloads[article._id];
+function cancel(articleId) {
+	if(!!downloads[articleId]) {
+		downloads[articleId].cancel();
+		delete downloads[articleId];
 	} else {
 		console.error("IMPOSSIBLE TO CANCEL UNKNOWN DOWNLOAD");
 	}

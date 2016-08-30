@@ -10,7 +10,7 @@ var ArticleSchema = new Schema({
   url: { type: String, required: true },
   date: { type: Date, default: Date.now, required: true },
   progress: { type: Number, default: -1, required: true },
-  hash: { type: String, required: false },
+  fileName: { type: String, required: false },
   size: { type: Number, default: -1, required: true },
   transferred: { type: Number, default: -1, required: true },
   speed: { type: Number, default: -1, required: true },

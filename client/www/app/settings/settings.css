@@ -14,12 +14,16 @@
 	font-size: 10px;
 }
 
+#tab-settings .select-container {
+	margin: 0 20px 10px;
+}
+
 #tab-settings select {
 	width: 50%;
 	margin: 0;
 	padding: 10px;
-	background-color: black;
-	color: white;
+	background-color: white;
+	color: black;
 }
 
 #tab-settings .select-value {

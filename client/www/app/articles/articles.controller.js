@@ -46,7 +46,7 @@ function ArticlesCtrl($ionicPopup, $rootScope, $scope, $state, ArticlesService, 
 		ArticlesService.delete(vm.article._id)
 			.finally(function() {
 				if(!!removeData) {
-					FilesService.delete(vm.article.title)
+					FilesService.delete(vm.article.fileName)
 				.finally(function() {
 					LoaderService.hide();
 					closeDeletePopup();
