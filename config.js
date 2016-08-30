@@ -23,7 +23,9 @@ module.exports = {
   },
   
   file: {
-  	completedPath: "Files/Completed/",
-	tempPath: "Files/Temp/"
+  	completedPath: process.env.COMPLETED_PATH ||
+  		"Files/Completed/",
+	tempPath: process.env.TEMPORARY_PATH ||
+		"Files/Temp/"
   }
 };
